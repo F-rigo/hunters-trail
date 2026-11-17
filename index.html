@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Hunter's Trail: Tauren Hunter Field Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#120e0b; --panel:#1d1714; --panel2:#261d19; --line:#3d2d25;
+  --text:#eadcc6; --muted:#ab9a84; --horde:#a6302a; --gold:#c9a24a;
+  --ok:#7fb873; --div:#e0a040; --nc:#8c9bab;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:"Crimson Pro",Georgia,serif;font-size:17px;line-height:1.5}
+h1,h2,h3{font-family:"Cinzel",Georgia,serif;letter-spacing:.02em;text-wrap:balance;margin:0}
+h1{font-size:clamp(1.5rem,4vw,2.2rem);color:var(--gold)}
+h2{font-size:1.35rem;color:var(--gold);margin-bottom:.75rem}
+h3{font-size:1.05rem;color:var(--text);margin-bottom:.35rem}
+a{color:var(--gold)}
+button,input,select{font:inherit;color:inherit}
+header{padding:20px 16px 12px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#24150f,var(--bg))}
+.sub{color:var(--muted);font-style:italic;margin:4px 0 14px}
+.bar{height:10px;background:#0c0908;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--horde),var(--gold));transition:width .3s}
+.barlbl{display:flex;justify-content:space-between;font-size:.9rem;color:var(--muted);margin-top:6px;flex-wrap:wrap;gap:6px}
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
+.tools label{color:var(--muted);font-size:.95rem}
+input[type=number],input[type=search]{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:7px 10px;min-width:0}
+input[type=number]{width:90px}
+input[type=search]{flex:1;min-width:160px;max-width:360px}
+.btn{background:var(--horde);border:1px solid #c44a40;color:#fff;border-radius:6px;padding:7px 14px;cursor:pointer}
+.btn:hover{filter:brightness(1.1)}
+.btn.ghost{background:transparent;border-color:var(--line);color:var(--text)}
+nav{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap}
+nav button{background:none;border:0;border-bottom:3px solid transparent;padding:12px 12px;cursor:pointer;color:var(--muted);font-family:"Cinzel",Georgia,serif;font-size:.85rem}
+nav button.on{color:var(--gold);border-bottom-color:var(--horde)}
+main{max-width:1000px;margin:0 auto;padding:16px}
+section.tab{display:none}
+section.tab.on{display:block}
+.prog{color:var(--muted);font-size:.9rem;margin-bottom:12px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px;position:relative}
+.card.now{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+.card.hide,.item.hide,tr.hide{display:none}
+.meta{color:var(--muted);font-size:.92rem;margin:2px 0 8px}
+ul.clean{list-style:none;padding:0;margin:0}
+ul.clean li{padding:4px 0;border-top:1px dotted var(--line)}
+ul.clean li:first-child{border-top:0}
+.chk{display:flex;gap:9px;align-items:flex-start;cursor:pointer;padding:3px 0}
+.chk input{margin-top:6px;accent-color:var(--gold);width:16px;height:16px;flex:none}
+.chk.done span{text-decoration:line-through;color:var(--muted)}
+.tag{display:inline-block;font-size:.72rem;font-family:"Cinzel",Georgia,serif;padding:2px 7px;border-radius:4px;border:1px solid;margin-left:4px;vertical-align:2px;white-space:nowrap}
+.tag.ok{color:var(--ok);border-color:var(--ok)}
+.tag.div{color:var(--div);border-color:var(--div)}
+.tag.nc{color:var(--nc);border-color:var(--nc)}
+.star{background:none;border:0;cursor:pointer;color:var(--line);font-size:1.15rem;position:absolute;right:10px;top:8px;padding:2px}
+.star.on{color:var(--gold)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.chips button{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 12px;cursor:pointer;color:var(--muted);font-size:.9rem}
+.chips button.on{border-color:var(--gold);color:var(--gold)}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--gold);font-family:"Cinzel",Georgia,serif;font-size:.8rem;font-weight:600}
+.wrap{overflow-x:auto}
+.note{background:#2a1b14;border-left:3px solid var(--div);padding:10px 14px;border-radius:4px;margin:0 0 14px;font-size:.95rem}
+.note.info{border-left-color:var(--nc);background:#181d22}
+.hl{color:var(--gold)}
+.hidden-tab-msg{color:var(--muted);display:none}
+footer{color:var(--muted);font-size:.9rem;padding:24px 16px 40px;max-width:1000px;margin:0 auto;border-top:1px solid var(--line)}
+@media (max-width:520px){body{font-size:16px}.card{padding:12px}}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+</style>
+</head>
+<body>
+<header>
+  <h1>The Hunter's Trail</h1>
+  <p class="sub">A leveling guide for the Tauren Hunter (Horde) in World of Warcraft: Forever, from level 1 to 60.<br>Data from the launch version released November 4, 2026, with hotfixes through November 13.</p>
+  <div class="bar" role="progressbar" aria-label="Progress to level 60" aria-valuemin="1" aria-valuemax="60"><i id="barFill"></i></div>
+  <div class="barlbl"><span>Current level: <strong id="lvlTxt" class="hl">1</strong> of 60</span><span id="totTxt"></span></div>
+  <div class="tools">
+    <label for="lvl">My level</label>
+    <input type="number" id="lvl" min="1" max="60" value="1">
+    <button class="btn" id="goLvl">Go to my range</button>
+    <button class="btn ghost" id="resetAll">Clear checklists</button>
+  </div>
+</header>
+
+<nav id="nav"></nav>
+
+<main>
+  <div class="tools" style="margin:0 0 14px">
+    <input type="search" id="q" placeholder="Search quests, items, dungeons, pets, zones..." aria-label="Search the guide">
+    <span class="hidden-tab-msg" id="noRes">Nothing found in this tab.</span>
+  </div>
+
+  <section class="tab" id="tab-inicio">
+    <h2>Before you start</h2>
+    <div class="note">This guide was built from news articles, community guide sites, and hotfix notes published by Blizzard. I could not open the reference site from the brief. Wowhead Forever is the main reference for pets and abilities. Petopia had no Forever data that I could open. Items marked <span class="tag nc">Not confirmed</span> need to be checked in game. Items marked <span class="tag div">Sources differ</span> show the versions from each source.</div>
+    <h3>Character summary</h3>
+    <ul class="clean" id="resumo"></ul>
+    <h3 style="margin-top:16px">Calendar that matters</h3>
+    <ul class="clean">
+      <li>November 4, 2026, 3 PM PST: worldwide launch. Access included with a WoW subscription.</li>
+      <li>December 9, 2026: three raids open, the first being Barrow Deeps for 10 players.</li>
+      <li>Hotfixes from November 5 to 13 already changed Hunter pets, Volley, and Hunter aggro. The list is in the Tips tab.</li>
+    </ul>
+    <h3 style="margin-top:16px">How to read the tags</h3>
+    <ul class="clean">
+      <li>Confirmed: appears in more than one source or in an official Blizzard note.</li>
+      <li>Sources differ: the sources give different numbers or orders. Check in game.</li>
+      <li>Not confirmed: I did not find enough data in the sources I could open. Nothing was made up to fill gaps.</li>
+    </ul>
+  </section>
+
+  <section class="tab" id="tab-rota">
+    <h2>Leveling route, 1 to 60</h2>
+    <div class="note info">The level ranges and zones come from the AccountShark route guide, which is generic and has no Horde-specific route. I adapted the sequence for a Tauren Hunter. The Alliance zones that appear in the source (Dun Morogh, Westfall, Darkshore) were removed. Treat the route as a starting point and confirm zones on the in-game map. I did not find zone quest names in my search, so the checklist uses only what the sources mention.</div>
+    <div class="prog" data-prog="rota"></div>
+    <div id="routeList"></div>
+  </section>
+
+  <section class="tab" id="tab-gear">
+    <h2>Weapons and gear</h2>
+    <div class="note info">I only list items cited by sources. I did not find a confirmed weapon-by-level table for Tauren Hunter, so the level and source of each item stay <span class="tag nc">Not confirmed</span> where data is missing. The rule from the sources: slower bows and guns are usually better for Hunters, because damage per shot is calculated from the weapon.</div>
+    <div class="chips" data-chips="gear"></div>
+    <div class="prog" data-prog="gear"></div>
+    <div class="grid" id="gearList"></div>
+  </section>
+
+  <section class="tab" id="tab-pets">
+    <h2>Pet system</h2>
+    <div class="note">The pet system in Forever is not the same as Classic. Pets take stats from the Hunter's gear and no longer receive player stat buffs. Each family has a unique ability. There are 18 families at launch, including the new Fox family.</div>
+    <h3>How to get your first pet</h3>
+    <div class="card" style="margin-bottom:14px">
+      <ul class="clean" id="petFirst"></ul>
+    </div>
+    <h3>Taming rules</h3>
+    <div class="card" style="margin-bottom:14px">
+      <ul class="clean" id="petRules"></ul>
+    </div>
+    <h3>Families and ranking</h3>
+    <div class="chips" data-chips="pets"></div>
+    <div class="prog" data-prog="pets"></div>
+    <div class="wrap"><table id="petTable"></table></div>
+    <div class="note info" style="margin-top:14px">Rankings differ between sites. Exitlag puts Bear as the best pet for Beast Mastery leveling. Axeetech, which updated its ranking on November 10, puts Carrion Bird as the best for leveling. Both agree Wolf is strong for dungeons. Wowhead does not publish a ranking, only family and ability lists. WoFW recommends Bear for leveling, Wolf for groups, and Crocolisk, Bat, or Bird of Prey for PvP.</div>
+  </section>
+
+  <section class="tab" id="tab-talentos">
+    <h2>Talents and specialization</h2>
+    <div class="note">Recommendation: <strong>Beast Mastery</strong> for leveling. Method says it is the preferred option, especially for solo leveling. Method also notes that the level 60 talent section was not yet complete on their page.</div>
+    <div class="card" style="margin-bottom:14px">
+      <h3>Leveling build: 31 Beast Mastery, 20 Marksmanship, 0 Survival <span class="tag ok">Confirmed</span></h3>
+      <p class="meta">51 points total between levels 10 and 60. Bestial Wrath at level 40 completes the Beast Mastery tree. The final 20 points go into Marksmanship.</p>
+    </div>
+    <h3>Point order by range (Beast Mastery)</h3>
+    <div class="prog" data-prog="talentos"></div>
+    <div class="wrap">
+      <table>
+        <tr><th>Level</th><th>Talent</th><th>Note</th></tr>
+        <tbody id="talentRows"></tbody>
+      </table>
+    </div>
+    <h3 style="margin-top:18px">Marksmanship tree (20 points)</h3>
+    <div class="card"><ul class="clean" id="mmList"></ul></div>
+    <h3 style="margin-top:18px">Survival: is it worth it?</h3>
+    <div class="note info">Sources differ. Icy Veins calls Survival the worst option for leveling, while Mobalytics says Survival is at the top of the damage charts. For leveling, Beast Mastery is still the safest choice according to the leveling sources. Marksmanship with Lone Wolf was reported as buggy by players.</div>
+  </section>
+
+  <section class="tab" id="tab-dungeons">
+    <h2>Dungeons</h2>
+    <div class="note info">Data from the Warcraft Tavern table. Repeating dungeons after completion gives much less XP than open world. In total there are 9 new dungeons in Forever and 20 classic ones. The maximum group size and loot were not on the page, so they stay <span class="tag nc">Not confirmed</span>. Blizzard also fixed an issue so each enemy killed in a dungeon gives 50 percent more XP (hotfix of November 9).</div>
+    <div class="chips" data-chips="dungeons"></div>
+    <div class="prog" data-prog="dungeons"></div>
+    <div class="wrap"><table id="dungTable"></table></div>
+  </section>
+
+  <section class="tab" id="tab-missoes">
+    <h2>Quest lines worth attention</h2>
+    <div class="note info">I only list quests with a name confirmed by a source. Prerequisites and coordinates were not confirmed in this research, so they are not included.</div>
+    <div class="prog" data-prog="missoes"></div>
+    <div class="grid" id="questList"></div>
+  </section>
+
+  <section class="tab" id="tab-profissoes">
+    <h2>Professions</h2>
+    <div class="prog" data-prog="prof"></div>
+    <div class="grid" id="profList"></div>
+  </section>
+
+  <section class="tab" id="tab-dicas">
+    <h2>Hunter tips and mechanics</h2>
+    <div class="prog" data-prog="dicas"></div>
+    <div class="grid" id="tipList"></div>
+    <h3 style="margin-top:18px">Hotfixes that affect the Hunter</h3>
+    <div class="wrap"><table>
+      <tr><th>Date</th><th>Change</th></tr>
+      <tr><td>Nov 9</td><td>Fixed a case where Hunters attacked enemies from very far away when targeting them.</td></tr>
+      <tr><td>Nov 9</td><td>Vulgara the Insatiable and the Shrieklings of Zephras moved to the correct pet families.</td></tr>
+      <tr><td>Nov 10</td><td>Hunter pet health corrected from 150 percent to 115 percent of normal, due to a bug.</td></tr>
+      <tr><td>Nov 11</td><td>Volley no longer triggers unintended procs. It also no longer keeps channeling when the Hunter starts moving.</td></tr>
+    </table></div>
+  </section>
+
+  <section class="tab" id="tab-fontes">
+    <h2>Sources</h2>
+    <div class="note">Wowhead Forever is the main reference here for pets and abilities. Petopia did not show Forever data in searches and I could not open the site, so it is not listed as a source. WoW Forever Database and Outpost were not opened directly. Items without a confirmed source are marked as not confirmed.</div>
+    <h3>Official and news</h3>
+    <ul class="clean" id="srcOff"></ul>
+    <h3 style="margin-top:14px">Community guides</h3>
+    <ul class="clean" id="srcComm"></ul>
+    <h3 style="margin-top:14px">Hotfixes</h3>
+    <ul class="clean" id="srcFix"></ul>
+  </section>
+</main>
+<footer>
+  Progress and checklists are saved only in this browser (localStorage). Clearing the site data deletes everything.
+</footer>
+
+<script>
+const TABS=[["inicio","Start"],["rota","Route 1 to 60"],["gear","Gear"],["pets","Pets"],["talentos","Talents"],["dungeons","Dungeons"],["missoes","Quests"],["profissoes","Professions"],["dicas","Tips"],["fontes","Sources"]];
+
+const RESUMO=[
+ "Race: Tauren, Horde. Class: Hunter.",
+ "Starting zone: Mulgore (the default Tauren start). Skyborne starts on Zephras Isle, but that does not apply here.",
+ "Tauren racials: War Stomp (unchanged), Plainsrunning (new passive, increases run speed while you keep moving and are not hit), Endurance and Cultivation. Nature Resistance was removed. <span class='tag nc'>Not confirmed</span> the exact effect of Endurance and Cultivation.",
+ "Plainsrunning also gives 1 percent hit chance, according to Warcraft Tavern."
+];
+
+const ROUTE=[
+ {r:"1 to 12",a:1,b:12,title:"Start and first steps",tag:"nc",
+  zones:"Mulgore, then the Horde starting zones (Durotar or Tirisfal, depending on your region). Zones for levels 1 to 12 were not confirmed one by one.",
+  obj:["Find the Hunter trainer and accept the Taming the Beast chain at level 10.","Rank 1 pet for the Horde: Taloned Swoop, in Mulgore, level 10 (source: Mobalytics)."],
+  skip:"Nothing to skip in this range. There is no pet before level 10.",
+  change:"Move to the 13 to 20 range once the starting zones are finished.",
+  alt:"If you are low on experience, use Concussive Shot (level 8) to slow enemies and kite with Auto Shot.",
+  dung:"No dungeons in this range.",
+  tips:"Before level 10 there is no pet: kite, use Concussive Shot, and maximize Auto Shot with an occasional Arcane Shot."},
+ {r:"13 to 20",a:13,b:20,title:"Barrens and Silverpine",tag:"nc",
+  zones:"The Barrens and Silverpine Forest. The source places Dun Morogh, Loch Modan, Westfall, Silverpine, Barrens, and Darkshore in this range. I kept the zones accessible to the Horde.",
+  obj:["Complete the Taming the Beast quests and train pet abilities at the trainer.","Collect the quests for the Ruins of Lordaeron (Horde) and Wailing Caverns dungeons before entering."],
+  skip:"Dungeon trash gives little XP in Forever. Prefer open-world quests.",
+  change:"Move to the 20 to 33 range once the Barrens and Silverpine quests are complete.",
+  alt:"If the zone is very crowded, Ruins of Lordaeron and Wailing Caverns help pass the time with dungeon XP.",
+  dung:"Ruins of Lordaeron (15 to 22, Tirisfal), Wailing Caverns (15 to 24, The Barrens), Ragefire Chasm (13 to 18, Orgrimmar).",
+  tips:"Use Mend Pet at level 12 against elites that could kill your pet. Train abilities as soon as they unlock."},
+ {r:"20 to 33",a:20,b:33,title:"Ashenvale, Stonetalon, and Wetlands",tag:"nc",
+  zones:"Ashenvale, Stonetalon Mountains, Hillsbrad, and Thousand Needles. The source lists Wetlands for the Excavation Site.",
+  obj:["Combine the Wetlands quests with the trip to the Excavation Site.","Do not enter City of Dalaran below level 28."],
+  skip:"Zone quests that are far below your level.",
+  change:"Move to the 33 to 45 range once Ashenvale and Thousand Needles are complete.",
+  alt:"Blackfathom Deeps (24 to 32) and Razorfen Kraul (29 to 38) are alternatives for players who prefer dungeons.",
+  dung:"Blackfathom Deeps (24 to 32, Ashenvale), Razorfen Kraul (29 to 38, The Barrens), City of Dalaran (28 to 35, new).",
+  tips:"Watch the pull: let the pet attack first, then start ranged damage."},
+ {r:"33 to 45",a:33,b:45,title:"Stranglethorn and Riverglades",tag:"div",
+  zones:"Stranglethorn Vale and Riverglades, which is a quest hub between the 30s and 40s. Shen'dralas is an optional detour between Mulgore and Desolace, but the source does not publish its level range.",
+  obj:["Go to Riverglades when the Stranglethorn quests start giving little XP.","Complete The Drowned City (35 to 42) and Krol'Dok Stronghold (40 to 45)."],
+  skip:"Dungeon trash. Do the dungeon quest and return to the open world.",
+  change:"Move to Desolace, Badlands, Swamp of Sorrows, or Tanaris only when Riverglades starts to empty out. Confirm the Riverglades range in game: the information came from community coverage.",
+  alt:"Uldaman (41 to 51) and Razorfen Downs (37 to 46) are good alternatives if the zone is crowded.",
+  dung:"The Drowned City (35 to 42, new), Razorfen Downs (37 to 46), Krol'Dok Stronghold (40 to 45 according to the official forum), Uldaman (41 to 51).",
+  tips:"Krol'Dok's range was corrected on the official forum: the Warcraft Tavern table says 40 to 47."},
+ {r:"45 to 53",a:45,b:53,title:"Tanaris, Feralas, and Dustwallow",tag:"ok",
+  zones:"Tanaris, Feralas, The Hinterlands, Searing Gorge, and the edges of Un'Goro. Then Dustwallow Marsh and the Alcaz prison.",
+  obj:["Plan the trip by boat or flight to Alcaz Island."],
+  skip:"Feralas quests you already completed in other ranges.",
+  change:"Move to the 53 to 60 range once Dustwallow and Alcaz are complete.",
+  alt:"Zul'Farrak (44 to 54) and Maraudon (46 to 55) are good if you do not want to travel.",
+  dung:"Zul'Farrak (44 to 54, Tanaris), Maraudon (46 to 55, Desolace), Alcaz Prison (48 to 55, new), Sunken Temple (50 to 60).",
+  tips:"Alcaz Prison is listed as 48 to 55 in the table, but the AccountShark guide says 48 to 53. Use the table as the reference."},
+ {r:"53 to 60",a:53,b:60,title:"Azshara, Un'Goro, and Mount Hyjal",tag:"ok",
+  zones:"Northern Azshara, Un'Goro Crater, and Mount Hyjal, which the source names as the final leveling zone. Plaguelands, Winterspring, and Burning Steppes are alternatives.",
+  obj:["Do the Hyjal quests, which have high quest density in Forever.","Prepare gear for the December 9 raids."],
+  skip:"Trash in the old dungeons. Prefer quests.",
+  change:"Once you reach 60, go to the endgame dungeons and raids.",
+  alt:"Plaguelands (Stratholme and Scholomance, 58 to 60) is a classic option if you want dungeons.",
+  dung:"Blackmaw Hold (55 to 60, Azshara, new), Shaper's Terrace (58 to 60, Un'Goro, new), Stratholme (58 to 60), Scholomance (58 to 60), Upper Blackrock Spire (59 to 60).",
+  tips:"Raids: Barrow Deeps (10 players) and Hyjal Summit (20). They open on December 9."}
+];
+
+const TALENT_ROWS=[
+ ["10 to 14","Deadly Aspects 5/5","Confirmed by Mobalytics. Points at the top of the tree."],
+ ["15 to 16","Focused Fire 2/2","Confirmed by Mobalytics."],
+ ["17 to 18","Pathfinding 2/2","Confirmed by Mobalytics. Leprestore says Pathfinding moved to BM row 3 on November 3."],
+ ["19","Improved Revive Pet 1/2","Method suggests putting the second point in Ferocity. Choose one of the two."],
+ ["20 to 24","Unleashed Fury 5/5, Ferocity 5/5, Bestial Swiftness 1/1, Bestial Discipline 2/2","Exact order between 20 and 24 not confirmed."],
+ ["25","Summon Hawk 1/1","Confirmed by Leprestore. Unlocks the temporary hawk with 16 points in BM."],
+ ["30","Intimidation 1/1","Confirmed by Leprestore. Pet stun with 21 points in BM."],
+ ["31 to 39","Frenzy 5/5, Spirit Bond 1/2 to 2/2, Improved Revive Pet or Endurance Training","Remaining pet points. Sources differ on Endurance Training (0 to 5)."],
+ ["40","Bestial Wrath 1/1","Confirmed. Completes the BM tree with 31 points."],
+ ["40 to 60","Marksmanship 20 points: Hawk Eye 3/3, Careful Aim 5/5, Mortal Shots 5/5, Lethal Attacks 5/5, Rapid Killing 2/2, Trueshot Aura 1/1","Mobalytics shows the MM variant. The exact order was not confirmed."]
+];
+const MM_LIST=[
+ "Careful Aim 5/5: Marksmanship crit bonus, considered strong for leveling.",
+ "Lone Wolf (11 points): gives 20 percent more damage with no active pet. Icy Veins says it is useful for AoE dungeons. Players reported a bug.",
+ "Trueshot Aura: appears in build variants. Confirm it in your build.",
+ "Mortal Shots 5/5 and Lethal Attacks 5/5 are cited as part of the 20-point build."
+];
+
+const GEAR=[
+ {cat:"Weapons",name:"Premier Grand Marshal's Bullseye",tag:"ok",lvl:"Not confirmed",where:"Not confirmed",why:"Listed as S tier ranged weapon for Hunters (RankedBoost, 100 points in the ranking).",replace:"Not confirmed."},
+ {cat:"Weapons",name:"Premier High Warlord's Recurve",tag:"ok",lvl:"Not confirmed",where:"Not confirmed",why:"Listed alongside the Bullseye in the S tier of ranged weapons (RankedBoost).",replace:"Not confirmed."},
+ {cat:"Weapons",name:"Hyper Deluxe Sniper Rifle Mk XVII",tag:"ok",lvl:"Requires the Engineering profession",where:"Engineering craft",why:"Best ranged craft item for Hunters, according to RankedBoost.",replace:"Not confirmed."},
+ {cat:"Weapons",name:"Slower ranged weapons",tag:"ok",lvl:"Varies",where:"Any source",why:"Mobalytics says slower bows and guns are preferable, because shot damage depends on the weapon and Aimed Shot uses the weapon's damage.",replace:"When you find a weapon with higher DPS but slower speed."},
+ {cat:"Weapons",name:"Scarlet Monastery and Wailing Caverns items (BM)",tag:"div",lvl:"Not confirmed",where:"Scarlet Monastery (dungeon) and Wailing Caverns",why:"RankedBoost says Scarlet Monastery has more top items for Beast Mastery, followed by Wailing Caverns. Exact item names and levels were not confirmed.",replace:"Not confirmed."},
+ {cat:"Armor",name:"Leather armor (Leatherworking)",tag:"ok",lvl:"Depends on the recipe",where:"Leatherworking + Skinning profession",why:"Skinning provides leather and scales for Leatherworking. Mobalytics says profession gear is strong in Forever, which was not true before.",replace:"When a dungeon drop is better for your slot."},
+ {cat:"Items",name:"Agility, Stamina, and Attack Power items",tag:"nc",lvl:"Not confirmed",where:"Not confirmed",why:"I could not list confirmed items by level. Look on the Auction House or in the dungeons for your range.",replace:"Not confirmed."}
+];
+
+const PET_RULES=[
+ "You can tame animals at your level or below.",
+ "You cannot tame with an active pet, or with a pet that is only dismissed. Store or release the current one first.",
+ "Tame Beast has a 20-second channel, costs 60 percent of base mana, and sets armor to zero while channeling (Wowhead and ConquestCapped). Feed the newly tamed pet with Feed Pet.",
+ "Pets take stats from the Hunter's gear and do not receive player stat buffs. Warcraft Tavern cites 10 percent of the Hunter's Attack Power and 100 percent of the crit chance.",
+ "Each family has a unique ability, and all learn Bite or Claw, plus Dive or Dash.",
+ "Two stabled pets beyond the active one, swapped at any Stable Master (Warcraft Tavern and Playnews). Mobalytics says 3 slots, which differs."
+];
+const PET_FIRST=[
+ "Level 10: the Hunter trainer offers Taming the Beast. The chain has 3 quests, each with a different animal from your starting zone.",
+ "The chain gives a Taming Rod for training. Rod tamings are temporary.",
+ "After the 3 quests you learn Tame Beast, Call Pet, Dismiss Pet, Feed Pet, Revive Pet, and Beast Training.",
+ "Mend Pet comes at level 12 and is not part of the starting chain (RPGStash).",
+ "For Tauren, the first rank 1 pet mentioned is Taloned Swoop, in Mulgore, level 10 (Mobalytics)."
+];
+const PETS=[
+ {n:"Cat",t:"S",ab:"Not confirmed (Ferocity family on Wowhead)",note:"S tier on the Axeetech and Dving lists."},
+ {n:"Spider",t:"S",ab:"Web (level 12, Wowhead)",note:"S tier on the Axeetech and Dving lists. Web is the family's unique ability."},
+ {n:"Wolf",t:"S",ab:"Furious Howl (level 10, Wowhead)",note:"S tier. Strong for dungeons and groups, according to Axeetech and Exitlag. Increases the group's melee Attack Power."},
+ {n:"Carrion Bird",t:"S",ab:"Demoralizing Screech (level 8, Wowhead)",note:"S tier. Axeetech lists it as the best for leveling."},
+ {n:"Raptor",t:"A",ab:"Savage Rend",note:"A tier. Cunning family on Wowhead."},
+ {n:"Bat",t:"A",ab:"Sonic Blast (level 12) and Dive (level 40), Wowhead",note:"A tier."},
+ {n:"Scorpid",t:"A",ab:"Scorpid Poison",note:"A tier."},
+ {n:"Boar",t:"A",ab:"Charge (rank 1, Wowhead)",note:"A tier. Cunning family. Axeetech lists it as a leveling alternative."},
+ {n:"Bear",t:"A",ab:"Swipe (rank 1 at level 12, rank 5 at level 60, Wowhead)",note:"A tier according to Dving and Axeetech. Tenacity type. Exitlag and WoFW recommend it for solo leveling."},
+ {n:"Crocolisk",t:"A",ab:"Dismember (level 12, Wowhead; does not stack with Mortal Strike)",note:"A tier. WoFW recommends it for PvP."},
+ {n:"Tallstrider",t:"B",ab:"Dust Cloud (level 12, Wowhead)",note:"B tier."},
+ {n:"Gorilla",t:"B",ab:"Thunderstomp (area damage)",note:"B tier."},
+ {n:"Hyena",t:"B",ab:"Tendon Rip",note:"B tier."},
+ {n:"Wind Serpent",t:"B",ab:"Not confirmed",note:"B tier."},
+ {n:"Bird of Prey (formerly Owl)",t:"C",ab:"Mine! (level 10, Wowhead)",note:"C tier. New name for the Owl family. WoFW recommends it for PvP."},
+ {n:"Fox (new)",t:"C",ab:"Trickster's Dance: +50 percent dodge and +30 percent attack speed for 12 seconds",note:"New family in Forever. Learns the ability at level 20 (Dving). C tier."},
+ {n:"Turtle",t:"C",ab:"Shell Shield (reduces damage taken)",note:"C tier."},
+ {n:"Crab",t:"D",ab:"Pinch",note:"The only family in D tier."}
+];
+
+const DUNGEONS=[
+ ["Ragefire Chasm",13,18,"Orgrimmar","Horde. Quest guide listed."],
+ ["Hall of Thanes (new)",13,20,"Ironforge","Alliance according to Gamer Guides, range 13 to 18 in that source."],
+ ["Ruins of Lordaeron (new)",15,22,"Tirisfal Glades","Horde according to Gamer Guides. Range 15 to 20 according to AccountShark."],
+ ["Wailing Caverns",15,24,"The Barrens",""],
+ ["Deadmines",17,26,"Westfall","Alliance zone."],
+ ["Shadowfang Keep",20,30,"Silverpine Forest",""],
+ ["Blackfathom Deeps",24,32,"Ashenvale","Quest guide listed."],
+ ["The Stockade",24,32,"Stormwind City","Alliance city."],
+ ["Excavation Site: Wetlands (new)",26,33,"Wetlands",""],
+ ["City of Dalaran (new)",28,35,"Alterac Mountains","AccountShark: do not enter below 28."],
+ ["Razorfen Kraul",29,38,"The Barrens",""],
+ ["Gnomeregan",29,38,"Dun Morogh","Alliance zone."],
+ ["Scarlet Graveyard",30,38,"Tirisfal Glades","Scarlet Monastery wing, shared quests."],
+ ["Scarlet Library",33,41,"Tirisfal Glades","Scarlet Monastery wing, shared quests."],
+ ["The Drowned City (new)",35,42,"Stranglethorn Vale","No quest guide listed."],
+ ["Scarlet Armory",36,44,"Tirisfal Glades","Scarlet Monastery wing."],
+ ["Razorfen Downs",37,46,"The Barrens",""],
+ ["Scarlet Cathedral",38,46,"Tirisfal Glades","Scarlet Monastery wing."],
+ ["Krol'Dok Stronghold (new)",40,45,"Riverglades","Official forum corrects the range to 40 to 45. No quest guide."],
+ ["Uldaman",41,51,"Badlands",""],
+ ["Zul'Farrak",44,54,"Tanaris",""],
+ ["Maraudon",46,55,"Desolace",""],
+ ["Alcaz Prison (new)",48,55,"Dustwallow Marsh","No quest guide. AccountShark says 48 to 53."],
+ ["Sunken Temple",50,60,"Swamp of Sorrows",""],
+ ["Blackrock Depths",52,60,"Blackrock Mountain",""],
+ ["Dire Maul East",54,60,"Feralas",""],
+ ["Lower Blackrock Spire",55,60,"Blackrock Mountain",""],
+ ["Blackmaw Hold (new)",55,60,"Azshara","No quest guide."],
+ ["Dire Maul West",56,60,"Feralas",""],
+ ["Dire Maul North",56,60,"Feralas",""],
+ ["Shaper's Terrace (new)",58,60,"Un'Goro Crater","No quest guide."],
+ ["Stratholme Main Gate",58,60,"Eastern Plaguelands",""],
+ ["Stratholme Service Gate",58,60,"Eastern Plaguelands",""],
+ ["Scholomance",58,60,"Western Plaguelands",""],
+ ["Upper Blackrock Spire",59,60,"Blackrock Mountain",""]
+];
+
+const QUESTS=[
+ {n:"Taming the Beast (pet chain)",where:"Hunter trainer, level 10",tag:"ok",det:"Three quests with a Taming Rod on specific animals. Ends with Tame Beast and your first permanent pet."},
+ {n:"Feathers in Flight",where:"Blackfathom Deeps",tag:"ok",det:"November 10 hotfix fixed the Hyjal Owl Nest loot for players below level 60."},
+ {n:"Freedom for All Creatures",where:"Feralas",tag:"ok",det:"November 11 hotfix fixed the cage door that did not reset. Feralas quest, not Hunter-specific."},
+ {n:"Quests above level 48 with gold",where:"Open world",tag:"ok",det:"Since the November 10 hotfix, most quests above level 48 give gold. The amounts were not published."}
+];
+
+const PROFS=[
+ {n:"Leatherworking + Skinning",tag:"ok",det:"Recommended pair for leveling. Skinning produces leather for Leatherworking, which makes leather armor and mail, quivers, and ammo pouches. Leatherworking has 595 recipes and goes from 1 to 300 in 22 steps (Metabot)."},
+ {n:"Engineering + Mining",tag:"ok",det:"Recommended pair for endgame. Engineering provides guns, scopes, and ammo. Mining provides ore for Engineering."},
+ {n:"First Aid",tag:"nc",det:"Mobalytics says it has new buffs and more things to craft besides bandages. Details were not confirmed."},
+ {n:"Cooking",tag:"nc",det:"I did not find confirmed data about Cooking in this research."},
+ {n:"Fishing",tag:"nc",det:"I did not find confirmed data about Fishing in this research."},
+ {n:"Engineering recipes",tag:"ok",det:"RankedBoost ranks the Hyper Deluxe Sniper Rifle Mk XVII as the best ranged item crafted for Hunters."}
+];
+
+const TIPS=[
+ {t:"Mana management",tag:"nc",d:"I did not find confirmed data about Hunter-specific mana in Forever. Use Feign Death and kite."},
+ {t:"Kiting before level 10",tag:"ok",d:"Concussive Shot (level 8) slows enemies. Keep your distance and maximize Auto Shot (Method)."},
+ {t:"Pet tanks, you shoot",tag:"ok",d:"After level 10, let the pet tank and use Aimed Shot and Multi-Shot (Method)."},
+ {t:"Open with the pet",tag:"ok",d:"Let the pet attack first, then start ranged damage, so you do not pull aggro (Method)."},
+ {t:"Keep Growl active",tag:"ok",d:"Keep Growl active on the pet, automatic or manual (Method)."},
+ {t:"Hawks",tag:"ok",d:"From level 25, keep two hawks and the pet. Only recast Summon Hawk at the last second (Method)."},
+ {t:"Arcane Shot",tag:"ok",d:"Worth using every three shots in long single-target fights (Method)."},
+ {t:"Raptor Strike",tag:"ok",d:"Loses value after level 10 (Method)."},
+ {t:"Traps and control",tag:"ok",d:"Freezing Trap and Frost Trap help with control. Feign Death is used to leave combat."},
+ {t:"Elites",tag:"ok",d:"Mend Pet (level 12) is valuable against elites that could kill your pet (Method)."},
+ {t:"Mend Pet and Beast Lore",tag:"ok",d:"Mend Pet at level 12 and Beast Lore at level 24 (WoFW)."},
+ {t:"Dash",tag:"nc",d:"Method says Dash is learned through Wild Taming: tame a pet that knows it and use it in combat."},
+ {t:"Auto Shot",tag:"ok",d:"September 23 hotfix test: the 0.5 second cast of Auto Shot was wrong in beta. Confirm it is normal in game."}
+];
+
+const SRC_OFF=[
+ ["Blizzard: Carve a New Path with World of Warcraft: Forever","https://worldofwarcraft.blizzard.com/news/24302093/"],
+ ["Blizzard News: worldwide launch on November 4","https://news.blizzard.com/en-us/article/24302093/"],
+ ["Blizzard Forums: WoW Forever Hotfixes, November 9 to 13","https://us.forums.blizzard.com/en/wow/t/2403040/5"],
+ ["Blizzard Forums: Hotfixes of November 11","https://eu.forums.blizzard.com/en/wow/t/639885/7"],
+ ["Blizzard Forums: Hotfixes of November 10","https://eu.forums.blizzard.com/en/wow/t/639885/5"],
+ ["Blizzard Forums: Krol'Dok Stronghold range correction","https://eu.forums.blizzard.com/en/wow/t/628618/1"]
+];
+const SRC_COMM=[
+ ["Wowhead Forever: Hunter Pets (database)","https://www.wowhead.com/forever/hunter-pets"],
+ ["Wowhead Forever: Pet Abilities","https://www.wowhead.com/forever/spells/pet-abilities/hunter"],
+ ["Wowhead Blue Tracker: Class Deep Dives, Hunter","https://www.wowhead.com/forever/blue-tracker/news/us/world-of-warcraft-forever-class-deep-dives-hunter-and-druid-world-of-warcraft-24301515"],
+ ["WoFW: Best Hunter Pets","https://wofwforever.com/en/guides/wow-forever-best-hunter-pets/"],
+ ["Method: WoW Forever Hunter Leveling Guide & Talents","https://www.method.gg/wow-forever/wow-forever-hunter-leveling-guide-and-talents"],
+ ["Mobalytics: Beast Mastery Hunter 1-60","https://mobalytics.gg/wow-forever/classes/1-60-beast-mastery-hunter-leveling-guide"],
+ ["Mobalytics: Racial Abilities","https://mobalytics.gg/wow-forever/guides/wow-forever-racial-abilities"],
+ ["Warcraft Tavern: Hunter Pets","https://www.warcrafttavern.com/forever/guides/hunter-pets/"],
+ ["Warcraft Tavern: Dungeons","https://www.warcrafttavern.com/forever/guides/dungeons/"],
+ ["Warcraft Tavern: Tauren Racial Abilities","https://www.warcrafttavern.com/forever/guides/tauren-racials/"],
+ ["AccountShark: Leveling Guide 1 to 60","https://accountshark.net/blog/wow-forever-leveling-guide-1-60-2026"],
+ ["Axeetech: Hunter Pet Tier List","https://axeetech.com/?p=120321"],
+ ["Dving: Hunter Pets Guide","https://dving.net/guides/wow-forever-hunter-pets-guide"],
+ ["Exitlag: Best Hunter Pets","https://www.exitlag.com/blog/wow-forever-pets/"],
+ ["RankedBoost: Best Ranged Hunter Items","https://rankedboost.com/world-of-warcraft/forever/tier-list/best-ranged-hunter/"],
+ ["RankedBoost: Professions","https://rankedboost.com/world-of-warcraft/forever/professions/"],
+ ["Gfinity: Best Profession Pairings","https://www.gfinityesports.com/article/the-best-profession-pairings-for-every-class-in-world-of-warcraft-forever"],
+ ["Metabot: WoW Forever Professions","https://metabot.gg/en/wow-forever/professions"],
+ ["Leprestore: Beast Mastery Guide","https://leprestore.com/guides/world-of-warcraft-forever/wow-forever-beast-mastery-hunter-guide-best-builds-race-professions/"],
+ ["Icy Veins: Professions Overview","https://www.icy-veins.com/wow-forever/professions-overview"],
+ ["Gamer Guides: WoW Forever Dungeons","https://gamer-guides.com/wiki/wow-forever/dungeon/"]
+];
+const SRC_FIX=[
+ ["Warcraft Tavern: Hotfixes of November 10","https://www.warcrafttavern.com/forever/news/class-economy-changes-wow-forever-hotfixes-for-november-10/"],
+ ["MeinMMO: Hotfixes of November 10","https://mein-mmo.de/en/wow-forever-hotfixes-from-november-10-2026-patch-notes-with-adjustments-for-classes-and-dungeons,1595768/"],
+ ["Gamer Fuzion: Hotfixes of November 10 (Hunter pet health)","https://www.gamerfuzion.com/world-of-warcraft-forever-november-10-hotfixes-enhancement-shaman-stormstrike-wrack-quest-gold/"]
+];
+
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const store={
+  get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+};
+let done=new Set(store.get("ht.done",[]));
+let favs=new Set(store.get("ht.fav",[]));
+let level=Math.min(60,Math.max(1,parseInt(store.get("ht.level",1),10)||1));
+let activeTab="inicio";
+let filters={gear:"all",pets:"all",dungeons:"all"};
+
+const TAGS={ok:["Confirmed","ok"],div:["Sources differ","div"],nc:["Not confirmed","nc"]};
+const tagH=t=>{const x=TAGS[t]||TAGS.nc;return `<span class="tag ${x[1]}">${x[0]}</span>`};
+const chk=(id,label)=>`<label class="chk ${done.has(id)?"done":""}"><input type="checkbox" data-id="${esc(id)}" ${done.has(id)?"checked":""}><span>${label}</span></label>`;
+const starH=id=>`<button class="star ${favs.has(id)?"on":""}" data-fav="${esc(id)}" aria-label="Favorite" aria-pressed="${favs.has(id)}">★</button>`;
+
+function renderNav(){
+  $("#nav").innerHTML=TABS.map(([id,l])=>`<button data-tab="${id}" class="${id===activeTab?"on":""}">${l}</button>`).join("");
+}
+function renderResumo(){
+  $("#resumo").innerHTML=RESUMO.map(x=>`<li>${x}</li>`).join("");
+}
+function renderRoute(){
+  $("#routeList").innerHTML=`<div class="grid">`+ROUTE.map((z,i)=>{
+    const now=level>=z.a&&level<=z.b;
+    const objs=z.obj.map((o,j)=>chk(`rota-${i}-${j}`,esc(o))).join("");
+    return `<div class="card item ${now?"now":""}" id="f-${i}" data-s="${esc((z.title+" "+z.zones+" "+z.dung).toLowerCase())}">
+      ${starH("rota-"+i)}
+      <h3>${z.r}: ${esc(z.title)} ${tagH(z.tag)}</h3>
+      ${now?'<p class="meta hl">You are here</p>':""}
+      <p class="meta"><strong>Zones:</strong> ${esc(z.zones)}</p>
+      <ul class="clean">${objs}</ul>
+      <p class="meta"><strong>Can skip:</strong> ${esc(z.skip)}</p>
+      <p class="meta"><strong>When to move on:</strong> ${esc(z.change)}</p>
+      <p class="meta"><strong>Alternative:</strong> ${esc(z.alt)}</p>
+      <p class="meta"><strong>Dungeons:</strong> ${esc(z.dung)}</p>
+      <p class="meta"><strong>Hunter tip:</strong> ${esc(z.tips)}</p>
+    </div>`;}).join("")+`</div>`;
+}
+function renderGear(){
+  const cats=["all",...new Set(GEAR.map(g=>g.cat))];
+  $(`[data-chips="gear"]`).innerHTML=cats.map(c=>`<button data-f="gear:${c}" class="${filters.gear===c?"on":""}">${c==="all"?"All":c}</button>`).join("");
+  $("#gearList").innerHTML=GEAR.map((g,i)=>{
+    const id="gear-"+i;
+    return `<div class="card item" data-cat="${esc(g.cat)}" data-s="${esc((g.name+" "+g.cat+" "+g.why).toLowerCase())}">
+      ${starH(id)}
+      <h3>${esc(g.name)} ${tagH(g.tag)}</h3>
+      <p class="meta">${esc(g.cat)} · Level: ${esc(g.lvl)}</p>
+      <p class="meta"><strong>Where:</strong> ${esc(g.where)}</p>
+      <p class="meta"><strong>Why use it:</strong> ${esc(g.why)}</p>
+      <p class="meta"><strong>When to swap:</strong> ${esc(g.replace)}</p>
+      ${chk(id,"Equipped or obtained")}
+    </div>`;}).join("");
+}
+function renderPets(){
+  const tiers=["all","S","A","B","C","D"];
+  $(`[data-chips="pets"]`).innerHTML=tiers.map(t=>`<button data-f="pets:${t}" class="${filters.pets===t?"on":""}">${t==="all"?"All":"Tier "+t}</button>`).join("");
+  $("#petFirst").innerHTML=PET_FIRST.map(x=>`<li>${esc(x)}</li>`).join("");
+  $("#petRules").innerHTML=PET_RULES.map(x=>`<li>${esc(x)}</li>`).join("");
+  $("#petTable").innerHTML=`<tr><th>Family</th><th>Tier</th><th>Unique ability</th><th>Note</th><th>I have it</th></tr>`+
+    PETS.map((p,i)=>{const id="pet-"+i;return `<tr class="item" data-cat="${p.t}" data-s="${esc((p.n+" "+p.ab+" "+p.note).toLowerCase())}"><td>${esc(p.n)} ${starH(id)}</td><td>${p.t}</td><td>${esc(p.ab)}</td><td>${esc(p.note)}</td><td><input type="checkbox" data-id="${id}" ${done.has(id)?"checked":""} aria-label="I have ${esc(p.n)}"></td></tr>`}).join("");
+}
+function renderTalentos(){
+  $("#talentRows").innerHTML=TALENT_ROWS.map((r,i)=>`<tr class="item" data-s="${esc(r.join(" ").toLowerCase())}"><td>${r[0]}</td><td>${chk("tal-"+i,esc(r[1]))}</td><td>${esc(r[2])}</td></tr>`).join("");
+  $("#mmList").innerHTML=MM_LIST.map((x,i)=>`<li>${chk("mm-"+i,esc(x))}</li>`).join("");
+}
+function renderDungeons(){
+  const bands=["all","1-20","20-40","40-60"];
+  $(`[data-chips="dungeons"]`).innerHTML=bands.map(b=>`<button data-f="dungeons:${b}" class="${filters.dungeons===b?"on":""}">${b==="all"?"All":"Level "+b}</button>`).join("");
+  $("#dungTable").innerHTML=`<tr><th>Dungeon</th><th>Level</th><th>Location</th><th>Note</th><th>Done</th></tr>`+
+    DUNGEONS.map((d,i)=>{const id="dun-"+i;const band=d[1]<=20?"1-20":d[1]<=40?"20-40":"40-60";return `<tr class="item" data-band="${band}" data-s="${esc((d[0]+" "+d[3]+" "+d[4]).toLowerCase())}"><td>${esc(d[0])} ${starH(id)}</td><td>${d[1]} to ${d[2]}</td><td>${esc(d[3])}</td><td>${esc(d[4])}</td><td><input type="checkbox" data-id="${id}" ${done.has(id)?"checked":""} aria-label="Completed ${esc(d[0])}"></td></tr>`}).join("");
+}
+function renderQuests(){
+  $("#questList").innerHTML=QUESTS.map((q,i)=>{const id="q-"+i;return `<div class="card item" data-s="${esc((q.n+" "+q.where+" "+q.det).toLowerCase())}">
+    ${starH(id)}<h3>${esc(q.n)} ${tagH(q.tag)}</h3><p class="meta">${esc(q.where)}</p><p>${esc(q.det)}</p>${chk(id,"Completed")}</div>`}).join("");
+}
+function renderProfs(){
+  $("#profList").innerHTML=PROFS.map((p,i)=>{const id="prof-"+i;return `<div class="card item" data-s="${esc((p.n+" "+p.det).toLowerCase())}">
+    ${starH(id)}<h3>${esc(p.n)} ${tagH(p.tag)}</h3><p>${esc(p.det)}</p>${chk(id,"Considered")}</div>`}).join("");
+}
+function renderTips(){
+  $("#tipList").innerHTML=TIPS.map((t,i)=>{const id="tip-"+i;return `<div class="card item" data-s="${esc((t.t+" "+t.d).toLowerCase())}">
+    ${starH(id)}<h3>${esc(t.t)} ${tagH(t.tag)}</h3><p>${esc(t.d)}</p>${chk(id,"Got it")}</div>`}).join("");
+}
+function renderFontes(){
+  const li=arr=>arr.map(([t,u])=>`<li><a href="${u}" target="_blank" rel="noopener">${esc(t)}</a></li>`).join("");
+  $("#srcOff").innerHTML=li(SRC_OFF);
+  $("#srcComm").innerHTML=li(SRC_COMM);
+  $("#srcFix").innerHTML=li(SRC_FIX);
+}
+
+function updateProgress(){
+  $("#barFill").style.width=(level/60*100)+"%";
+  $("#lvlTxt").textContent=level;
+  const all=document.querySelectorAll("[data-id]");
+  let ok=0;
+  all.forEach(el=>{if(el.checked)ok++});
+  $("#totTxt").textContent=`${ok} of ${all.length} items checked`;
+  document.querySelectorAll("[data-prog]").forEach(p=>{
+    const sec=p.closest("section");
+    if(!sec)return;
+    const boxes=sec.querySelectorAll("[data-id]");
+    const c=[...boxes].filter(b=>b.checked).length;
+    p.textContent=boxes.length?`Progress in this tab: ${c} of ${boxes.length}`:"";
+  });
+  store.set("ht.done",[...done]);
+  store.set("ht.fav",[...favs]);
+  store.set("ht.level",level);
+}
+function refreshAll(){
+  renderResumo();renderRoute();renderGear();renderPets();renderTalentos();renderDungeons();renderQuests();renderProfs();renderTips();renderFontes();
+  updateProgress();
+  applySearch();
+}
+
+function showTab(id){
+  activeTab=id;
+  document.querySelectorAll("section.tab").forEach(s=>s.classList.toggle("on",s.id==="tab-"+id));
+  renderNav();
+  applySearch();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function applySearch(){
+  const q=($("#q").value||"").trim().toLowerCase();
+  const sec=$("#tab-"+activeTab);
+  let visible=0;
+  sec.querySelectorAll(".item").forEach(el=>{
+    const s=el.getAttribute("data-s")||"";
+    let show=!q||s.includes(q);
+    const cat=el.getAttribute("data-cat"),band=el.getAttribute("data-band");
+    if(activeTab==="gear"&&filters.gear!=="all"&&cat!==filters.gear)show=false;
+    if(activeTab==="pets"&&filters.pets!=="all"&&cat!==filters.pets)show=false;
+    if(activeTab==="dungeons"&&filters.dungeons!=="all"&&band!==filters.dungeons)show=false;
+    el.classList.toggle("hide",!show);
+    if(show)visible++;
+  });
+  $("#noRes").style.display=(q&&visible===0)?"inline":"none";
+}
+
+function goToLevel(){
+  try{
+    let v=parseInt($("#lvl").value,10);
+    if(isNaN(v)||v<1)v=1;
+    if(v>60)v=60;
+    level=v;
+    $("#lvl").value=v;
+    updateProgress();
+    renderRoute();
+    showTab("rota");
+    const card=document.querySelector(".card.now");
+    if(card)setTimeout(()=>card.scrollIntoView({behavior:"smooth",block:"center"}),80);
+  }catch(err){
+    $("#noRes").textContent="Could not go to your range. Reload the page.";
+    $("#noRes").style.display="inline";
+  }
+}
+
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-tab]");
+  if(t&&t.closest("nav")){showTab(t.dataset.tab);return}
+  const f=e.target.closest("[data-f]");
+  if(f){const [k,v]=f.dataset.f.split(":");filters[k]=v;renderGear();renderPets();renderDungeons();applySearch();return}
+  const s=e.target.closest("[data-fav]");
+  if(s){const id=s.dataset.fav;favs.has(id)?favs.delete(id):favs.add(id);s.classList.toggle("on");s.setAttribute("aria-pressed",favs.has(id));updateProgress();return}
+});
+document.addEventListener("change",e=>{
+  const el=e.target;
+  if(el.matches("input[type=checkbox][data-id]")){
+    const id=el.dataset.id;
+    el.checked?done.add(id):done.delete(id);
+    const lab=el.closest("label");if(lab)lab.classList.toggle("done",el.checked);
+    updateProgress();
+  }
+});
+$("#q").addEventListener("input",applySearch);
+$("#goLvl").addEventListener("click",goToLevel);
+$("#lvl").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();goToLevel();}});
+$("#lvl").value=level;
+$("#resetAll").onclick=()=>{
+  done=new Set();favs=new Set();
+  store.set("ht.done",[]);store.set("ht.fav",[]);
+  refreshAll();
+};
+
+renderNav();
+showTab("inicio");
+refreshAll();
+</script>
+</body>
+</html>
